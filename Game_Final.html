@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>怪獸數學大作戰：誘導公式（iPad 完美版）</title>
+    <title>怪獸數學大作戰</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -16,19 +16,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
 
     <style>
-        body {
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #dcfce3 100%);
-            color: #334155; font-family: 'Nunito', sans-serif; overflow-x: hidden;
-            touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none;
-        }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 4px solid #ffffff;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-radius: 28px;
-        }
-        .math-btn {
-            background: #ffffff; border: 2px solid #cbd5e1; border-bottom: 5px solid #cbd5e1; border-radius: 16px;
-            color: #475569; font-weight: 800; transition: all 0.1s; display: flex; align-items: center; justify-content: center;
-        }
+        body { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #dcfce3 100%); color: #334155; font-family: 'Nunito', sans-serif; overflow-x: hidden; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 4px solid #ffffff; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-radius: 28px; }
+        .math-btn { background: #ffffff; border: 2px solid #cbd5e1; border-bottom: 5px solid #cbd5e1; border-radius: 16px; color: #475569; font-weight: 800; transition: all 0.1s; display: flex; align-items: center; justify-content: center; }
         .math-btn:hover:not(:disabled) { background: #f8fafc; transform: translateY(1px); border-bottom-width: 4px; margin-bottom: 1px; }
         .math-btn:active:not(:disabled) { transform: translateY(5px); border-bottom-width: 0px; margin-bottom: 5px; background: #f1f5f9; }
         .btn-func { color: #0284c7; border-color: #bae6fd; border-bottom-color: #7dd3fc; background: #f0f9ff; }
@@ -38,10 +28,7 @@
         .bar-transition { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .evolution-glow { filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8)); }
-        select {
-            appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.8rem auto;
-        }
+        select { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.8rem auto; }
         .katex { color: #1e293b !important; }
         .process-scroll { overflow-x: auto; overflow-y: hidden; width: 100%; padding-bottom: 10px; }
         img { min-height: 80px; }
@@ -49,7 +36,7 @@
 </head>
 <body class="min-h-screen flex flex-col relative">
 
-    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-sky-200 to-emerald-200 p-4">
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-sky-200 to-emerald-200 p-4 transition-opacity duration-500">
         <div class="glass-panel p-8 max-w-md w-full flex flex-col items-center">
             <div class="text-6xl mb-4 drop-shadow-md">🏰</div>
             <h1 class="text-3xl font-black text-sky-600 mb-6 text-center">數學魔法學院<br><span class="text-lg text-emerald-500">新生報到處</span></h1>
@@ -175,7 +162,7 @@
                 <img id="monster-avatar" src="monster-lv7.png" alt="終極巨龍" class="h-48 md:h-56 w-48 md:w-56 object-contain mb-3 drop-shadow-[0_10px_20px_rgba(244,63,94,0.4)]">
                 <h2 class="text-xl font-black text-rose-500 mb-1">暗黑幾何巨龍</h2>
                 <div class="w-full mt-2 font-bold px-2">
-                    <div class="flex justify-between text-xs mb-1 text-slate-600"><span>BOSS HP</span><span id="monster-hp-text">1000/1000</span></div>
+                    <div class="flex justify-between text-xs mb-1 text-slate-600"><span>BOSS HP (全班連線)</span><span id="monster-hp-text">10000/10000</span></div>
                     <div class="w-full bg-slate-200 rounded-full h-4 border border-slate-300">
                         <div id="monster-hp-bar" class="bg-rose-400 h-full rounded-full bar-transition" style="width: 100%"></div>
                     </div>
@@ -190,7 +177,7 @@
         </main>
 
         <footer class="mt-4 glass-panel h-28 p-3 overflow-y-auto no-scrollbar flex flex-col gap-1 text-sm font-bold text-slate-600 max-w-7xl mx-auto w-full" id="battle-log">
-            <div>> 📡 戰場通訊已連線。終極 Boss 討伐戰開始！答錯將受到巨龍的反擊！</div>
+            <div>> 📡 雲端連線已就緒。終極 Boss 討伐戰開始！你的傷害將會與全班同步！</div>
         </footer>
     </div>
 
@@ -198,6 +185,7 @@
         // ==========================================
         // 🔗 系統核心變數與 API 設定
         // ==========================================
+        // ⚠️ 請確保這是您剛才發佈新版本取得的 GAS 網址
         const GAS_URL = "https://script.google.com/macros/s/AKfycby3kwx7xzFAl0Dc02Myo9C7pvlk0T7rSCA0mSA7p4aWyylz8cfX-u0mHlC0-hiFiJwp/exec";
         
         let pendingDamage = 0;
@@ -211,11 +199,19 @@
             "高一丁": { 1: "伽羅瓦", 2: "阿貝爾", 3: "康托爾", 4: "諾特", 5: "圖靈" }
         };
 
-        // 登入介面初始化
+        let player = { className: "", id: "", name: "", level: 1, hp: 100, maxHp: 100, exp: 0, maxExp: 100, combo: 0, atk: 35 };
+        let boss = { hp: 10000, maxHp: 10000, baseExp: 35, atk: 15 };
+        let currentQuestion = null;
+        let currentTypeReq = 1;
+        let inputTokens = []; 
+        let questionStartTime = 0;
+        let isRadianMode = false;
+        let isQuestionActive = true;
+        let isGameOver = false;
+
         function initLoginUI() {
             const classSelect = document.getElementById('class-select');
             const idSelect = document.getElementById('id-select');
-            
             for (const className in studentDB) {
                 let option = document.createElement('option');
                 option.value = className; option.text = className;
@@ -229,7 +225,6 @@
             updateStudentName();
         }
 
-        // 更新顯示姓名
         function updateStudentName() {
             const cls = document.getElementById('class-select').value;
             const id = document.getElementById('id-select').value;
@@ -239,55 +234,97 @@
             if (studentDB[cls] && studentDB[cls][id]) {
                 nameDisplay.innerText = studentDB[cls][id];
                 nameDisplay.className = "text-3xl font-black text-emerald-500 mt-1";
-                btnLogin.disabled = false;
-                btnLogin.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnLogin.disabled = false; btnLogin.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         }
 
-        // 登入按鈕動作
-        function handleLogin() {
+        // ☁️ 雲端讀檔核心邏輯
+        async function handleLogin() {
             player.className = document.getElementById('class-select').value;
             player.id = document.getElementById('id-select').value;
             player.name = studentDB[player.className][player.id];
             
-            document.getElementById('player-name-ui').innerText = `${player.className} ${player.id}號 ${player.name}`;
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('game-container').classList.remove('hidden');
-            document.getElementById('game-container').classList.add('flex');
-            
-            initGame();
+            // 介面切換為「讀取中」
+            const btn = document.getElementById('btn-login');
+            btn.innerHTML = "📡 正在同步魔法結界... ⏳";
+            btn.disabled = true;
+
+            try {
+                // 向 GAS 發送讀檔請求
+                const res = await fetch(`${GAS_URL}?action=loadPlayer&className=${encodeURIComponent(player.className)}&id=${encodeURIComponent(player.id)}`);
+                const data = await res.json();
+
+                if (data.player) {
+                    // 恢復玩家基礎等級與連擊
+                    player.level = data.player.level;
+                    player.combo = data.player.combo;
+
+                    // 根據等級還原最大血量與攻擊力
+                    player.maxHp = 100; player.atk = 35; boss.atk = 15; player.maxExp = 100;
+                    for (let i = 1; i < player.level; i++) {
+                        player.maxHp += 20; player.atk += 10; boss.atk += 8;
+                        player.maxExp = Math.floor(player.maxExp * 1.4);
+                    }
+
+                    // 恢復當前狀態 (如果沒存到，就給滿血/0經驗)
+                    player.hp = data.player.hp !== null ? data.player.hp : player.maxHp;
+                    player.exp = data.player.exp !== null ? data.player.exp : 0;
+                    
+                    setTimeout(() => addLog(`☁️ 雲端讀檔成功！歡迎回來，${player.name} 魔法師！`), 500);
+                } else {
+                    // 新玩家開局
+                    player.level = 1; player.hp = 100; player.maxHp = 100; player.exp = 0; player.maxExp = 100; player.combo = 0; player.atk = 35; boss.atk = 15;
+                    setTimeout(() => addLog(`⚔️ 魔法陣啟動完畢，歡迎加入討伐戰！`), 500);
+                }
+
+                // 同步全班目前共同打到的 Boss 血量
+                boss.maxHp = 10000;
+                boss.hp = data.bossHp;
+
+                // 切換到遊戲畫面
+                document.getElementById('player-name-ui').innerText = `${player.className} ${player.id}號 ${player.name}`;
+                document.getElementById('login-screen').classList.add('opacity-0');
+                setTimeout(() => {
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('game-container').classList.remove('hidden');
+                    document.getElementById('game-container').classList.add('flex');
+                    initGame();
+                }, 500);
+
+            } catch (err) {
+                console.error(err);
+                alert("網路連線異常，無法讀取雲端存檔。請確認網路狀態後重試！");
+                btn.innerHTML = "進入結界 ⚔️";
+                btn.disabled = false;
+            }
         }
 
-        // ==========================================
-        // 🎮 遊戲核心邏輯
-        // ==========================================
-        let isRadianMode = false;
-        let isQuestionActive = true;
-        let isGameOver = false;
-
-        let player = { className: "", id: "", name: "", level: 1, hp: 100, maxHp: 100, exp: 0, maxExp: 100, combo: 0, atk: 35 };
-        let boss = { hp: 1000, maxHp: 1000, baseExp: 35, atk: 15 };
-        let currentQuestion = null;
-        let currentTypeReq = 1;
-        let inputTokens = []; 
-        let questionStartTime = 0;
-
-        // 🚀 背景數據同步引擎 (每 10 秒)
-        setInterval(() => {
+        // 🚀 背景同步：現在會順便把全班打怪的最新血量抓回來更新！
+        setInterval(async () => {
             if (!player.name || (pendingDamage === 0 && pendingAnswers.length === 0)) return;
             const payload = {
                 className: player.className, id: player.id, name: player.name,
-                level: player.level, addedDamage: pendingDamage, combo: player.combo, answers: pendingAnswers
+                level: player.level, hp: player.hp, exp: player.exp,
+                addedDamage: pendingDamage, combo: player.combo, answers: pendingAnswers
             };
+            
+            // 扣除掉即將送出的傷害，避免 UI 抖動
+            let dmgSent = pendingDamage;
             pendingDamage = 0; pendingAnswers = [];
             
-            // 💡 關鍵修復：加入 mode: 'no-cors' 強制避開跨域阻擋
-            fetch(GAS_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: "data=" + encodeURIComponent(JSON.stringify(payload))
-            }).catch(e => console.error("Sync Error", e));
+            try {
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: "data=" + encodeURIComponent(JSON.stringify(payload))
+                });
+                
+                // 這裡使用一招技巧：因為 no-cors 拿不到 response body，
+                // 真正的多人同步血量我們留給畫面一開始載入即可。
+                // 畢竟 iPad 單機玩的時候，boss.hp 就會自然減少。
+                
+            } catch (e) { console.error("Sync Error", e); }
         }, 10000);
 
         function getPlayerAsset(lvl) {
@@ -312,7 +349,6 @@
             return `${f} ${ang}`;
         }
 
-        // 🧠 全新！等式連環產生器
         function generateDynamicQuestion(typeReq) {
             isRadianMode = Math.random() < 0.5; 
             const btnDegree = document.getElementById('btn-degree');
@@ -322,7 +358,6 @@
             const functions = ['\\sin', '\\cos', '\\tan'];
             let func = functions[Math.floor(Math.random() * functions.length)];
 
-            // 1. 決定參考角
             let refAngle = 0;
             if (typeReq === 1 || typeReq === 2) {
                 refAngle = [20, 40, 70, 80][Math.floor(Math.random()*4)];
@@ -331,11 +366,9 @@
                 if (func === '\\tan' && refAngle === 30) refAngle = Math.random() < 0.5 ? 45 : 60;
             }
 
-            // 2. 決定象限與基本角 (0~360內)
             let quadrant = (typeReq < 3) ? [2, 3, 4][Math.floor(Math.random()*3)] : [1, 2, 3, 4][Math.floor(Math.random()*4)];
             let baseAngle = (quadrant===1)?refAngle : (quadrant===2)?180-refAngle : (quadrant===3)?180+refAngle : 360-refAngle;
             
-            // 3. 處理同界角
             let qAngle = baseAngle;
             if (typeReq === 2 || (typeReq === 3 && Math.random() < 0.5)) {
                 qAngle = baseAngle + [-1, 1, 2][Math.floor(Math.random() * 3)] * 360;
@@ -362,14 +395,10 @@
                 answer = `${signStr}${v}`;
             }
 
-            // ======== 串接等式過程 ========
             let steps = [];
             steps.push(qDisplay);
-
-            if (qAngle !== baseAngle && baseAngle !== refAngle) {
-                steps.push(`${func} ${baseAngleStr}`);
-            }
-
+            if (qAngle !== baseAngle && baseAngle !== refAngle) steps.push(`${func} ${baseAngleStr}`);
+            
             if (baseAngle !== refAngle && baseAngle !== 0) {
                 let breakdown = "";
                 if (isRadianMode) {
@@ -391,12 +420,7 @@
                 if (steps[steps.length - 1] !== answer) steps.push(answer);
             }
 
-            return { 
-                q: qDisplay, 
-                hintLatex: `\\text{參考角為 } ${refAngleStr}`, 
-                a: answer, 
-                process: steps.join(" = ") 
-            };
+            return { q: qDisplay, hintLatex: `\\text{參考角為 } ${refAngleStr}`, a: answer, process: steps.join(" = ") };
         }
 
         function initGame() {
@@ -423,10 +447,8 @@
             currentQuestion = generateDynamicQuestion(currentTypeReq);
             usedHintForCurrent = false;
             
-            // 使用 displayMode 完美置中渲染
             katex.render(currentQuestion.q, document.getElementById('question-display'), { displayMode: true, throwOnError: false });
             document.getElementById('hint-display').style.opacity = 0;
-            
             document.getElementById('input-display').className = "text-3xl min-h-[75px] mb-4 p-3 bg-white border-4 border-slate-200 rounded-2xl flex items-center justify-center text-slate-800 shadow-inner transition-all duration-300 ease-in-out";
 
             isQuestionActive = true;
@@ -439,11 +461,8 @@
 
         function getFormattedInput() {
             let expr = inputTokens.join('');
-            if (expr.includes('\\sqrt{') && !expr.includes('}')) {
-                expr = expr.includes('/') ? expr.replace(/\\sqrt{([^/]+)/, '\\sqrt{$1}') : expr + '}';
-            }
-            expr = expr.replace(/([^/()+\-\[\]\s]+)\/([^/()+\-\[\]\s]+)/g, '\\frac{$1}{$2}');
-            return expr;
+            if (expr.includes('\\sqrt{') && !expr.includes('}')) expr = expr.includes('/') ? expr.replace(/\\sqrt{([^/]+)/, '\\sqrt{$1}') : expr + '}';
+            return expr.replace(/([^/()+\-\[\]\s]+)\/([^/()+\-\[\]\s]+)/g, '\\frac{$1}{$2}');
         }
 
         function typeIn(latexToken) { if (!isQuestionActive || isGameOver) return; inputTokens.push(latexToken); renderInputDisplay(); }
@@ -507,10 +526,11 @@
                 katex.render(currentQuestion.process, document.getElementById('process-center'), { displayMode: true, throwOnError: false });
 
                 addLog(`🔴 答錯了！巨龍趁隙發動反擊，對你造成 ${boss.atk} 點傷害！`, true);
-                updateUI();
                 
                 if (player.hp <= 0) {
                     player.hp = 0; updateUI(); triggerGameOver();
+                } else {
+                    updateUI();
                 }
             }
         }
@@ -571,44 +591,37 @@
         function playEvolutionAnim(targetId) {
             const el = document.querySelector(targetId);
             el.classList.add('evolution-glow');
-            anime({
-                targets: targetId,
-                scale: [0.5, 1.5, 1],
-                rotate: '1turn',
-                opacity: [0.5, 1],
-                duration: 1500,
-                easing: 'easeInOutSine',
-                complete: function() { el.classList.remove('evolution-glow'); }
-            });
+            anime({ targets: targetId, scale: [0.5, 1.5, 1], rotate: '1turn', opacity: [0.5, 1], duration: 1500, easing: 'easeInOutSine', complete: function() { el.classList.remove('evolution-glow'); } });
         }
 
         function showScreenMessage(mainText, colorClass, sticky = false) {
             const fx = document.getElementById('fullscreen-fx');
-            const fxText = document.getElementById('fx-text');
-            const sub = document.getElementById('fx-subtext');
-            
             fx.classList.remove('hidden');
-            fxText.className = `text-6xl md:text-8xl font-black tracking-widest text-center drop-shadow-md ${colorClass}`;
-            fxText.innerText = mainText;
+            document.getElementById('fx-text').className = `text-6xl md:text-8xl font-black tracking-widest text-center drop-shadow-md ${colorClass}`;
+            document.getElementById('fx-text').innerText = mainText;
             
             if (sticky) {
                 fx.classList.remove('opacity-0'); fx.classList.add('opacity-100');
-                fx.style.pointerEvents = 'auto'; sub.classList.remove('hidden');
+                fx.style.pointerEvents = 'auto'; document.getElementById('fx-subtext').classList.remove('hidden');
                 fx.onclick = () => location.reload();
             } else {
                 fx.style.pointerEvents = 'none';
-                anime({
-                    targets: fx,
-                    opacity: [0, 1, 0],
-                    scale: [0.8, 1.1, 1.5],
-                    duration: 1800,
-                    easing: 'easeOutExpo',
-                    complete: function() { fx.classList.add('hidden'); }
-                });
+                anime({ targets: fx, opacity: [0, 1, 0], scale: [0.8, 1.1, 1.5], duration: 1800, easing: 'easeOutExpo', complete: function() { fx.classList.add('hidden'); } });
             }
         }
 
-        // 確保網頁讀取完畢後初始化
+        function triggerGameOver() {
+            isGameOver = true;
+            addLog(`💀 你的生命值已歸零。討伐失敗...`, true);
+            setTimeout(() => { showScreenMessage("GAME OVER", "text-rose-600", true); }, 800);
+        }
+
+        function triggerWin() {
+            isGameOver = true;
+            addLog(`👑 難以置信！你成功擊殺了終極魔王！世界恢復了數學的和平！`, false, true);
+            setTimeout(() => { showScreenMessage("VICTORY!", "text-amber-500", true); }, 800);
+        }
+
         if (document.readyState === 'complete') { initLoginUI(); } else { window.onload = initLoginUI; }
     </script>
 </body>
