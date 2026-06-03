@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>怪獸數學大作戰：誘導公式</title>
+    <title>怪獸數學大作戰：誘導公式（iPad 完美版）</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,9 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
 
     <style>
         body {
@@ -54,30 +53,38 @@
         <div class="glass-panel p-8 max-w-md w-full flex flex-col items-center">
             <div class="text-6xl mb-4 drop-shadow-md">🏰</div>
             <h1 class="text-3xl font-black text-sky-600 mb-6 text-center">數學魔法學院<br><span class="text-lg text-emerald-500">新生報到處</span></h1>
+            
             <div class="w-full mb-4">
                 <label class="block text-sm font-bold text-slate-500 mb-1 pl-1">班別</label>
                 <select id="class-select" class="w-full bg-white border-2 border-slate-200 text-slate-700 font-bold text-lg rounded-xl py-3 px-4 shadow-sm" onchange="updateStudentName()"></select>
             </div>
+
             <div class="w-full mb-6">
                 <label class="block text-sm font-bold text-slate-500 mb-1 pl-1">學號</label>
                 <select id="id-select" class="w-full bg-white border-2 border-slate-200 text-slate-700 font-bold text-lg rounded-xl py-3 px-4 shadow-sm" onchange="updateStudentName()"></select>
             </div>
+
             <div class="w-full bg-sky-50 border-2 border-sky-200 rounded-xl p-4 text-center mb-6 shadow-inner">
                 <p class="text-sm text-sky-600 font-bold mb-1">魔法師身分確認：</p>
                 <p id="student-name-display" class="text-2xl font-black text-slate-700">請選擇班級與學號</p>
             </div>
+
             <button id="btn-login" onclick="handleLogin()" class="math-btn btn-action w-full py-4 text-xl tracking-widest shadow-md">進入結界 ⚔️</button>
         </div>
     </div>
 
+
     <div id="game-container" class="hidden flex-col flex-grow p-2 md:p-4 lg:p-6 w-full h-full min-h-screen">
-        <div id="fullscreen-fx" class="fixed inset-0 flex items-center justify-center opacity-0 z-50 flex-col bg-white/80 backdrop-blur-md hidden">
+        
+        <div id="fullscreen-fx" class="fixed inset-0 flex items-center justify-center opacity-0 z-50 flex-col bg-white/80 backdrop-blur-md transition-opacity duration-500 hidden">
             <h1 id="fx-text" class="text-6xl md:text-8xl font-black text-heroGreen tracking-widest text-center drop-shadow-md">LEVEL UP!</h1>
-            <p id="fx-subtext" class="mt-6 text-2xl text-slate-600 font-bold bg-white px-6 py-2 rounded-full border-4 border-slate-200 hidden cursor-pointer">點擊重新開始</p>
+            <p id="fx-subtext" class="mt-6 text-2xl text-slate-600 font-bold bg-white px-6 py-2 rounded-full border-4 border-slate-200 shadow-sm hidden cursor-pointer">點擊重新開始</p>
         </div>
 
         <header class="text-center mb-4 mt-2">
-            <h1 class="text-3xl md:text-4xl font-black text-slate-800 drop-shadow-sm">⚔️ <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-emerald-500">誘導公式：首領討伐戰</span></h1>
+            <h1 class="text-3xl md:text-4xl font-black text-slate-800 drop-shadow-sm">
+                ⚔️ <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-emerald-500">誘導公式：首領討伐戰</span>
+            </h1>
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-7 gap-4 md:gap-6 flex-grow max-w-7xl mx-auto w-full">
@@ -87,9 +94,18 @@
                 <img id="player-avatar" src="player-lv1.png" alt="魔法師" class="h-40 md:h-48 w-40 md:w-48 object-contain mb-3 drop-shadow-lg">
                 <h2 class="text-xl font-black text-sky-600 mb-1" id="player-name-ui">數學魔法師</h2>
                 <div class="text-sm font-bold text-slate-400 mb-2">Lv. <span id="player-level">1</span></div>
+
                 <div class="w-full mt-1 font-bold px-2">
                     <div class="flex justify-between text-xs mb-1 text-slate-600"><span>HP (生命)</span><span id="player-hp-text">100/100</span></div>
-                    <div class="w-full bg-slate-200 rounded-full h-3 border border-slate-300"><div id="player-hp-bar" class="bg-emerald-400 h-full rounded-full bar-transition" style="width: 100%"></div></div>
+                    <div class="w-full bg-slate-200 rounded-full h-3 border border-slate-300">
+                        <div id="player-hp-bar" class="bg-emerald-400 h-full rounded-full bar-transition" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="w-full mt-3 font-bold px-2">
+                    <div class="flex justify-between text-xs mb-1 text-sky-600"><span>EXP (經驗)</span><span id="player-exp-text">0/100</span></div>
+                    <div class="w-full bg-slate-200 rounded-full h-2.5 border border-slate-300">
+                        <div id="player-exp-bar" class="bg-sky-400 h-full rounded-full bar-transition" style="width: 0%"></div>
+                    </div>
                 </div>
                 <div class="mt-4 text-center bg-white border-2 border-slate-200 w-[90%] rounded-xl py-2">
                     <p class="text-xs text-slate-500 font-bold">連擊 Combo</p>
@@ -100,31 +116,37 @@
             <section id="combat-center" class="glass-panel p-4 flex flex-col col-span-1 lg:col-span-3">
                 <div class="text-center mb-3">
                     <p class="text-sm mb-2 text-slate-600 font-black tracking-wide">請將下列化為銳角三角函數（0°～90° 或 0～π/2）：</p>
-                    <div id="question-display" class="text-4xl min-h-[60px] py-3 bg-white border-4 border-blue-100 rounded-2xl flex items-center justify-center text-slate-800 shadow-inner"></div>
+                    <div id="question-display" class="text-4xl min-h-[60px] py-3 bg-white border-4 border-blue-100 rounded-2xl flex items-center justify-center shadow-inner text-slate-800"></div>
                 </div>
+
                 <div class="text-center mb-2 min-h-[40px] flex justify-center gap-2">
-                    <button id="hint-btn" onclick="showHint()" class="text-sm font-bold bg-amber-100 text-amber-600 px-5 py-1.5 rounded-full border-2 border-amber-300">💡 顯示參考角 (提示)</button>
+                    <button id="hint-btn" onclick="showHint()" class="text-sm font-bold bg-amber-100 text-amber-600 hover:bg-amber-200 px-5 py-1.5 rounded-full transition-colors border-2 border-amber-300 shadow-sm">
+                        💡 顯示參考角 (提示)
+                    </button>
                 </div>
-                <div id="hint-display" class="text-center mb-3 text-lg text-amber-600 opacity-0 min-h-[28px] font-black flex items-center justify-center bg-amber-50 rounded-lg py-1 border border-amber-200"></div>
                 
+                <div id="hint-display" class="text-center mb-3 text-lg text-amber-600 opacity-0 transition-opacity min-h-[28px] font-black flex items-center justify-center bg-amber-50 rounded-lg py-1 border border-amber-200"></div>
+
                 <div class="text-sm text-slate-500 font-bold mb-1 pl-1">魔法陣輸入：</div>
-                <div id="input-display" class="text-3xl min-h-[75px] mb-4 p-3 bg-white border-4 border-slate-200 rounded-2xl flex items-center justify-center text-slate-800 transition-all shadow-inner">
+                <div id="input-display" class="text-3xl min-h-[75px] mb-4 p-3 bg-white border-4 border-slate-200 rounded-2xl flex items-center justify-center text-slate-800 shadow-inner transition-all duration-300 ease-in-out">
                     <span id="input-cursor" class="animate-pulse text-sky-400">_</span>
                 </div>
-                
+
                 <div class="flex flex-col gap-3 flex-grow">
                     <div class="grid grid-cols-4 gap-2 md:gap-3">
-                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\\\sin ')">sin</button>
-                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\\\cos ')">cos</button>
-                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\\\tan ')">tan</button>
-                        <button id="btn-degree" class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-xl" onclick="typeIn('^\\\\circ')">°</button>
+                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\sin ')">sin</button>
+                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\cos ')">cos</button>
+                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\tan ')">tan</button>
+                        <button id="btn-degree" class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-xl" onclick="typeIn('^\\circ')">°</button>
                     </div>
+                    
                     <div class="grid grid-cols-4 gap-2 md:gap-3">
-                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-orange-500 border-orange-200 border-bottom-orange-300" onclick="typeIn('\\\\pi')">π</button>
+                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-orange-500 border-orange-200 border-bottom-orange-300" onclick="typeIn('\\pi')">π</button>
                         <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-emerald-600 border-emerald-200 border-bottom-emerald-300" onclick="typeIn('/')">/</button>
-                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-emerald-600 border-emerald-200 border-bottom-emerald-300" onclick="typeIn('\\\\sqrt{')">√</button>
+                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-emerald-600 border-emerald-200 border-bottom-emerald-300" onclick="typeIn('\\sqrt{')">√</button>
                         <button class="math-btn min-h-[50px] md:min-h-[60px] text-2xl text-red-500 border-red-200 border-bottom-red-300" onclick="typeIn('-')">－</button>
                     </div>
+
                     <div class="grid grid-cols-4 gap-2 md:gap-3 flex-grow">
                         <div class="col-span-3 grid grid-cols-3 gap-2 md:gap-3">
                             <button class="math-btn btn-num min-h-[55px] md:min-h-[65px]" onclick="typeIn('7')">7</button>
@@ -140,16 +162,16 @@
                             <button class="math-btn btn-danger min-h-[55px] md:min-h-[65px] text-base" onclick="clearInput()">重置</button>
                         </div>
                         <div class="col-span-1 flex flex-col gap-2 md:gap-3">
-                            <button class="math-btn text-orange-600 bg-orange-50 border-orange-200 border-bottom-orange-300 flex-1 min-h-[60px]" onclick="deleteInput()">刪除</button>
+                            <button class="math-btn text-orange-600 bg-orange-50 border-orange-200 border-bottom-orange-300 hover:bg-orange-100 flex-1 min-h-[60px]" onclick="deleteInput()">刪除</button>
                             <button id="btn-attack" class="math-btn btn-action flex-[3] min-h-[120px] text-2xl tracking-widest" onclick="attack()">確定</button>
-                            <button id="btn-next" class="hidden math-btn bg-indigo-500 border-indigo-400 border-bottom-indigo-600 text-white flex-[3] min-h-[120px] text-xl font-black animate-pulse" onclick="forceNextQuestion()">⏭️ 下一題</button>
+                            <button id="btn-next" class="hidden math-btn bg-indigo-500 border-indigo-400 border-bottom-indigo-600 text-white hover:bg-indigo-600 flex-[3] min-h-[120px] text-xl font-black animate-pulse" onclick="forceNextQuestion()">⏭️ 下一題</button>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section class="glass-panel p-4 flex flex-col items-center col-span-1 lg:col-span-2 relative">
-                <div id="monster-title" class="absolute top-3 right-3 text-xs md:text-sm font-black text-rose-700 bg-rose-100 border-2 border-rose-300 px-3 py-1 rounded-full animate-pulse">史詩級 Boss</div>
+                <div id="monster-title" class="absolute top-3 right-3 text-xs md:text-sm font-black text-rose-700 bg-rose-100 border-2 border-rose-300 px-3 py-1 rounded-full shadow-sm animate-pulse">史詩級 Boss</div>
                 <img id="monster-avatar" src="monster-lv7.png" alt="終極巨龍" class="h-48 md:h-56 w-48 md:w-56 object-contain mb-3 drop-shadow-[0_10px_20px_rgba(244,63,94,0.4)]">
                 <h2 class="text-xl font-black text-rose-500 mb-1">暗黑幾何巨龍</h2>
                 <div class="w-full mt-2 font-bold px-2">
@@ -166,6 +188,10 @@
                 </div>
             </section>
         </main>
+
+        <footer class="mt-4 glass-panel h-28 p-3 overflow-y-auto no-scrollbar flex flex-col gap-1 text-sm font-bold text-slate-600 max-w-7xl mx-auto w-full" id="battle-log">
+            <div>> 📡 戰場通訊已連線。終極 Boss 討伐戰開始！答錯將受到巨龍的反擊！</div>
+        </footer>
     </div>
 
     <script>
@@ -185,30 +211,40 @@
             "高一丁": { 1: "伽羅瓦", 2: "阿貝爾", 3: "康托爾", 4: "諾特", 5: "圖靈" }
         };
 
+        // 登入介面初始化
         function initLoginUI() {
             const classSelect = document.getElementById('class-select');
             const idSelect = document.getElementById('id-select');
+            
             for (const className in studentDB) {
-                let option = document.createElement('option'); option.value = className; option.text = className; classSelect.appendChild(option);
+                let option = document.createElement('option');
+                option.value = className; option.text = className;
+                classSelect.appendChild(option);
             }
             for (let i = 1; i <= 5; i++) {
-                let option = document.createElement('option'); option.value = i; option.text = i + " 號"; idSelect.appendChild(option);
+                let option = document.createElement('option');
+                option.value = i; option.text = i + " 號";
+                idSelect.appendChild(option);
             }
             updateStudentName();
         }
 
+        // 更新顯示姓名
         function updateStudentName() {
             const cls = document.getElementById('class-select').value;
             const id = document.getElementById('id-select').value;
             const nameDisplay = document.getElementById('student-name-display');
             const btnLogin = document.getElementById('btn-login');
+
             if (studentDB[cls] && studentDB[cls][id]) {
                 nameDisplay.innerText = studentDB[cls][id];
                 nameDisplay.className = "text-3xl font-black text-emerald-500 mt-1";
-                btnLogin.disabled = false; btnLogin.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnLogin.disabled = false;
+                btnLogin.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         }
 
+        // 登入按鈕動作
         function handleLogin() {
             player.className = document.getElementById('class-select').value;
             player.id = document.getElementById('id-select').value;
@@ -218,11 +254,12 @@
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('game-container').classList.remove('hidden');
             document.getElementById('game-container').classList.add('flex');
+            
             initGame();
         }
 
         // ==========================================
-        // 🎮 遊戲核心與過程生成邏輯
+        // 🎮 遊戲核心邏輯
         // ==========================================
         let isRadianMode = false;
         let isQuestionActive = true;
@@ -230,15 +267,24 @@
 
         let player = { className: "", id: "", name: "", level: 1, hp: 100, maxHp: 100, exp: 0, maxExp: 100, combo: 0, atk: 35 };
         let boss = { hp: 1000, maxHp: 1000, baseExp: 35, atk: 15 };
-        let currentQuestion = null; let currentTypeReq = 1;
-        let inputTokens = []; let questionStartTime = 0;
+        let currentQuestion = null;
+        let currentTypeReq = 1;
+        let inputTokens = []; 
+        let questionStartTime = 0;
 
-        // 背景同步
+        // 🚀 背景數據同步引擎 (每 10 秒)
         setInterval(() => {
             if (!player.name || (pendingDamage === 0 && pendingAnswers.length === 0)) return;
-            const payload = { className: player.className, id: player.id, name: player.name, level: player.level, addedDamage: pendingDamage, combo: player.combo, answers: pendingAnswers };
+            const payload = {
+                className: player.className, id: player.id, name: player.name,
+                level: player.level, addedDamage: pendingDamage, combo: player.combo, answers: pendingAnswers
+            };
             pendingDamage = 0; pendingAnswers = [];
-            fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: "data=" + encodeURIComponent(JSON.stringify(payload)) }).catch(e => console.error(e));
+            fetch(GAS_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: "data=" + encodeURIComponent(JSON.stringify(payload))
+            }).catch(e => console.error(e));
         }, 10000);
 
         function getPlayerAsset(lvl) {
@@ -258,22 +304,17 @@
             return (isNeg ? "-" : "") + fracStr;
         }
 
-        // 格式化函式，確保只有負角與括號加法時才掛括號，模擬真實書寫
-        function formatFunc(f, ang, forceBrackets = false) {
-            if (forceBrackets || ang.toString().includes('-') || ang.toString().includes('+')) return `${f}(${ang})`;
-            return `${f} ${ang}`;
-        }
-
-        // 🧠 產生連貫式的標準數學解題過程 (例如: sin200 = sin(180+20) = -sin20)
+        // 🧠 全新！等式連環產生器 (例如: \sin 200 = \sin(180+20) = -\sin 20)
         function generateDynamicQuestion(typeReq) {
             isRadianMode = Math.random() < 0.5; 
             const btnDegree = document.getElementById('btn-degree');
-            if (isRadianMode) { btnDegree.classList.add('opacity-40', 'cursor-not-allowed'); btnDegree.disabled = true; } 
-            else { btnDegree.classList.remove('opacity-40', 'cursor-not-allowed'); btnDegree.disabled = false; }
+            if (isRadianMode) { btnDegree.classList.add('opacity-40', 'cursor-not-allowed', 'bg-slate-100'); btnDegree.disabled = true; } 
+            else { btnDegree.classList.remove('opacity-40', 'cursor-not-allowed', 'bg-slate-100'); btnDegree.disabled = false; }
 
             const functions = ['\\sin', '\\cos', '\\tan'];
             let func = functions[Math.floor(Math.random() * functions.length)];
 
+            // 1. 決定參考角
             let refAngle = 0;
             if (typeReq === 1 || typeReq === 2) {
                 refAngle = [20, 40, 70, 80][Math.floor(Math.random()*4)];
@@ -282,9 +323,11 @@
                 if (func === '\\tan' && refAngle === 30) refAngle = Math.random() < 0.5 ? 45 : 60;
             }
 
+            // 2. 決定象限與基本角 (0~360內)
             let quadrant = (typeReq < 3) ? [2, 3, 4][Math.floor(Math.random()*3)] : [1, 2, 3, 4][Math.floor(Math.random()*4)];
             let baseAngle = (quadrant===1)?refAngle : (quadrant===2)?180-refAngle : (quadrant===3)?180+refAngle : 360-refAngle;
             
+            // 3. 處理同界角 (題型2、3)
             let qAngle = baseAngle;
             if (typeReq === 2 || (typeReq === 3 && Math.random() < 0.5)) {
                 qAngle = baseAngle + [-1, 1, 2][Math.floor(Math.random() * 3)] * 360;
@@ -297,9 +340,11 @@
             let baseAngleStr = isRadianMode ? degreeToRadianLatex(baseAngle) : `${baseAngle}^\\circ`;
             let refAngleStr = isRadianMode ? degreeToRadianLatex(refAngle) : `${refAngle}^\\circ`;
 
-            let qDisplay = formatFunc(func, qAngleStr);
+            // 題目顯示 (如果是負角則加括號)
+            let qDisplay = (qAngle < 0) ? `${func}(${qAngleStr})` : `${func} ${qAngleStr}`;
             let reducedFunc = `${signStr}${func} ${refAngleStr}`;
             
+            // 最終答案
             let answer = "";
             if (typeReq < 3) {
                 answer = reducedFunc;
@@ -311,37 +356,58 @@
                 answer = `${signStr}${v}`;
             }
 
-            // 構建連貫等式過程
+            // ======== 串接等式過程 ========
             let steps = [];
-            steps.push(formatFunc(func, qAngleStr));
-            if (qAngle !== baseAngle) steps.push(formatFunc(func, baseAngleStr));
-            
-            if (baseAngle !== refAngle) {
-                let inner = "";
-                if (isRadianMode) {
-                    if (baseAngle > 90 && baseAngle < 180) inner = `\\pi - ${refAngleStr}`;
-                    else if (baseAngle > 180 && baseAngle < 270) inner = `\\pi + ${refAngleStr}`;
-                    else if (baseAngle > 270 && baseAngle < 360) inner = `2\\pi - ${refAngleStr}`;
-                } else {
-                    if (baseAngle > 90 && baseAngle < 180) inner = `180^\\circ - ${refAngleStr}`;
-                    else if (baseAngle > 180 && baseAngle < 270) inner = `180^\\circ + ${refAngleStr}`;
-                    else if (baseAngle > 270 && baseAngle < 360) inner = `360^\\circ - ${refAngleStr}`;
-                }
-                if (inner) steps.push(formatFunc(func, inner, true));
+            steps.push(qDisplay);
+
+            // 步驟 A: 如果有跨越 360 的同界角，先退回 0~360
+            if (qAngle !== baseAngle && baseAngle !== refAngle) {
+                steps.push(`${func} ${baseAngleStr}`);
             }
-            
-            if (typeReq === 3 && (baseAngle !== refAngle || qAngle !== baseAngle)) steps.push(reducedFunc);
-            steps.push(answer);
-            
-            return { q: qDisplay, hintLatex: `\\text{參考角為 } ${refAngleStr}`, a: answer, process: steps.join(" = ") };
+
+            // 步驟 B: 顯示拆解過程 (例如 180 + 20)
+            if (baseAngle !== refAngle && baseAngle !== 0) {
+                let breakdown = "";
+                if (isRadianMode) {
+                    if (quadrant === 2) breakdown = `\\pi - ${refAngleStr}`;
+                    else if (quadrant === 3) breakdown = `\\pi + ${refAngleStr}`;
+                    else if (quadrant === 4) breakdown = `2\\pi - ${refAngleStr}`;
+                } else {
+                    if (quadrant === 2) breakdown = `180^\\circ - ${refAngleStr}`;
+                    else if (quadrant === 3) breakdown = `180^\\circ + ${refAngleStr}`;
+                    else if (quadrant === 4) breakdown = `360^\\circ - ${refAngleStr}`;
+                }
+                if (breakdown) steps.push(`${func}(${breakdown})`);
+            }
+
+            // 步驟 C: 化簡後的函數
+            if (typeReq === 3) {
+                if (steps[steps.length - 1] !== reducedFunc) steps.push(reducedFunc);
+                steps.push(answer);
+            } else {
+                if (steps[steps.length - 1] !== answer) steps.push(answer);
+            }
+
+            return { 
+                q: qDisplay, 
+                hintLatex: `\\text{參考角為 } ${refAngleStr}`, 
+                a: answer, 
+                process: steps.join(" = ") 
+            };
         }
 
-        function initGame() { updateAvatars(true); updateUI(); loadNextQuestion(); }
+        function initGame() {
+            updateAvatars(true);
+            updateUI(); 
+            loadNextQuestion();
+        }
 
         function updateAvatars(isInit = false) {
+            const pAvatar = document.getElementById('player-avatar');
             const pData = getPlayerAsset(player.level);
-            if (document.getElementById('player-avatar').getAttribute('src') !== pData.img) {
-                document.getElementById('player-avatar').src = pData.img;
+
+            if (pAvatar.getAttribute('src') !== pData.img) {
+                pAvatar.src = pData.img;
                 document.getElementById('player-title').innerText = pData.title;
                 if (!isInit) playEvolutionAnim('#player-avatar');
             }
@@ -349,32 +415,43 @@
 
         function loadNextQuestion() {
             if (isGameOver) return;
+            
             currentTypeReq = player.level >= 7 ? 3 : (player.level >= 4 ? 2 : 1);
             currentQuestion = generateDynamicQuestion(currentTypeReq);
             usedHintForCurrent = false;
             
+            // 完美渲染題目 (恢復為使用 displayMode)
             katex.render(currentQuestion.q, document.getElementById('question-display'), { displayMode: true, throwOnError: false });
             document.getElementById('hint-display').style.opacity = 0;
-            document.getElementById('input-display').className = "text-3xl min-h-[75px] mb-4 p-3 bg-white border-4 border-slate-200 rounded-2xl flex items-center justify-center text-slate-800 transition-all";
+            
+            document.getElementById('input-display').className = "text-3xl min-h-[75px] mb-4 p-3 bg-white border-4 border-slate-200 rounded-2xl flex items-center justify-center text-slate-800 shadow-inner transition-all duration-300 ease-in-out";
 
             isQuestionActive = true;
-            document.getElementById('btn-attack').classList.remove('hidden'); document.getElementById('btn-next').classList.add('hidden');
-            clearInput(); questionStartTime = Date.now(); updateUI();
+            document.getElementById('btn-attack').classList.remove('hidden');
+            document.getElementById('btn-next').classList.add('hidden');
+            
+            clearInput(); questionStartTime = Date.now();
+            updateUI();
         }
 
         function getFormattedInput() {
             let expr = inputTokens.join('');
-            if (expr.includes('\\sqrt{') && !expr.includes('}')) expr = expr.includes('/') ? expr.replace(/\\sqrt{([^/]+)/, '\\sqrt{$1}') : expr + '}';
-            return expr.replace(/([^/()+\-\[\]\s]+)\/([^/()+\-\[\]\s]+)/g, '\\frac{$1}{$2}');
+            if (expr.includes('\\sqrt{') && !expr.includes('}')) {
+                expr = expr.includes('/') ? expr.replace(/\\sqrt{([^/]+)/, '\\sqrt{$1}') : expr + '}';
+            }
+            expr = expr.replace(/([^/()+\-\[\]\s]+)\/([^/()+\-\[\]\s]+)/g, '\\frac{$1}{$2}');
+            return expr;
         }
 
         function typeIn(latexToken) { if (!isQuestionActive || isGameOver) return; inputTokens.push(latexToken); renderInputDisplay(); }
         function deleteInput() { if (!isQuestionActive || isGameOver) return; inputTokens.pop(); renderInputDisplay(); }
         function clearInput() { if (!isQuestionActive || isGameOver) return; inputTokens = []; renderInputDisplay(); }
+
         function renderInputDisplay() {
             let expr = getFormattedInput();
-            if (expr === "") document.getElementById('input-display').innerHTML = '<span id="input-cursor" class="animate-pulse text-sky-400">_</span>';
-            else katex.render(expr, document.getElementById('input-display'), { throwOnError: false });
+            const displayDiv = document.getElementById('input-display');
+            if (expr === "") displayDiv.innerHTML = '<span id="input-cursor" class="animate-pulse text-sky-400">_</span>';
+            else katex.render(expr, displayDiv, { throwOnError: false });
         }
 
         function showHint() {
@@ -383,46 +460,72 @@
             katex.render(currentQuestion.hintLatex, document.getElementById('hint-display'), { throwOnError: false });
             document.getElementById('hint-display').style.opacity = 1;
         }
+
         function forceNextQuestion() { loadNextQuestion(); }
 
         function attack() {
             if (!isQuestionActive || isGameOver || inputTokens.length === 0) return;
+            
             let timeTaken = ((Date.now() - questionStartTime) / 1000).toFixed(1);
-            let isCorrect = (getFormattedInput() === currentQuestion.a);
+            let userAnswer = getFormattedInput();
+            let isCorrect = (userAnswer === currentQuestion.a);
             
             pendingAnswers.push({ typeReq: currentTypeReq, question: currentQuestion.q, isCorrect: isCorrect, timeTaken: Number(timeTaken), usedHint: usedHintForCurrent });
 
             if (isCorrect) {
-                player.combo += 1; player.exp += boss.baseExp + (player.combo * 5); pendingDamage += player.atk;
-                anime({ targets: '#player-avatar', translateX: [0, 45, 0], scale: [1, 1.2, 1], duration: 350 });
-                anime({ targets: '#monster-avatar', opacity: [1, 0.2, 1], scale: [1, 0.8, 1], rotate: [0, 15, 0], duration: 400, delay: 150 });
+                player.combo += 1;
+                let expGain = boss.baseExp + (player.combo * 5);
+                playAttackAnim(); 
+                boss.hp -= player.atk;
+                pendingDamage += player.atk;
+                
+                addLog(`🟢 完美吟唱！耗時 ${timeTaken}s。重創魔王 ${player.atk} 點傷害。`);
+                player.exp += expGain; 
                 checkLevelUp();
-                if (boss.hp <= player.atk) { boss.hp = 0; updateUI(); triggerWin(); } 
-                else { boss.hp -= player.atk; updateUI(); loadNextQuestion(); }
-            } else {
-                isQuestionActive = false; player.combo = 0; player.hp -= boss.atk;
-                anime({ targets: '#monster-avatar', translateX: [0, -45, 0], scale: [1, 1.3, 1], duration: 300 });
-                anime({ targets: '#combat-center', translateX: [{ value: -8 }, { value: 8 }, { value: 0 }], duration: 300, delay: 150 });
-                anime({ targets: '#player-avatar', opacity: [1, 0.2, 1], translateX: [0, -15, 0], duration: 400, delay: 150 });
-                
-                document.getElementById('btn-attack').classList.add('hidden'); document.getElementById('btn-next').classList.remove('hidden');
-                
-                // 動態展示過程等式
-                const displayDiv = document.getElementById('input-display');
-                displayDiv.className = "text-base md:text-lg min-h-[160px] mb-4 py-4 px-2 bg-rose-50 border-4 border-rose-300 rounded-2xl flex flex-col items-center justify-center text-slate-800 transition-colors";
-                displayDiv.innerHTML = `<div class="text-sm font-black text-rose-600 mb-2 border-b-2 border-rose-200 pb-1 w-[80%] text-center">❌ 法術反噬！正確解析如下</div><div id="process-center" class="process-scroll text-left flex justify-center py-2 text-slate-800"></div>`;
-                katex.render(currentQuestion.process, document.getElementById('process-center'), { throwOnError: false, displayMode: true });
 
-                if (player.hp <= 0) { player.hp = 0; updateUI(); isGameOver = true; setTimeout(() => { showScreenMessage("GAME OVER", "text-rose-600", true); }, 800); }
-                else { updateUI(); }
+                if (boss.hp <= 0) {
+                    boss.hp = 0; updateUI(); triggerWin();
+                } else { updateUI(); loadNextQuestion(); }
+            } else {
+                isQuestionActive = false; player.combo = 0;
+                player.hp -= boss.atk;
+                playErrorAnim();
+                
+                document.getElementById('btn-attack').classList.add('hidden');
+                document.getElementById('btn-next').classList.remove('hidden');
+
+                const displayDiv = document.getElementById('input-display');
+                displayDiv.className = "text-lg md:text-xl min-h-[160px] mb-4 py-4 px-2 bg-rose-50 border-4 border-rose-300 rounded-2xl flex flex-col items-center justify-center text-slate-800 shadow-inner transition-colors";
+                displayDiv.innerHTML = `
+                    <div class="text-sm font-black text-rose-600 mb-2 border-b-2 border-rose-200 pb-1 w-[80%] text-center tracking-widest">❌ 法術反噬！完整演化過程如下</div>
+                    <div id="process-center" class="process-scroll text-center flex justify-center py-2 text-slate-800 font-bold w-full"></div>
+                `;
+                
+                // 動態渲染生成的過程，使用 displayMode 確保排版完美
+                katex.render(currentQuestion.process, document.getElementById('process-center'), { displayMode: true, throwOnError: false });
+
+                addLog(`🔴 答錯了！巨龍趁隙發動反擊，對你造成 ${boss.atk} 點傷害！`, true);
+                updateUI();
+                
+                if (player.hp <= 0) {
+                    player.hp = 0; updateUI(); triggerGameOver();
+                }
             }
         }
 
         function checkLevelUp() {
             if (player.exp >= player.maxExp) {
-                player.level += 1; player.exp -= player.maxExp; player.maxExp = Math.floor(player.maxExp * 1.4); 
-                player.maxHp += 20; player.hp = player.maxHp; player.atk += 10; boss.atk += 8; 
-                showScreenMessage("LEVEL UP!", "text-sky-500"); updateAvatars(); 
+                player.level += 1; 
+                player.exp -= player.maxExp;
+                player.maxExp = Math.floor(player.maxExp * 1.4); 
+                player.maxHp += 20; 
+                player.hp = player.maxHp; 
+                player.atk += 10;
+                boss.atk += 8; 
+                
+                addLog(`🎉 恭喜突破至 Level ${player.level}！HP 回滿，攻擊力提升！但魔王也變得更兇猛了！`, false, true);
+                showScreenMessage("LEVEL UP!", "text-sky-500");
+                updateAvatars(); 
             }
         }
 
@@ -430,27 +533,97 @@
             document.getElementById('player-level').innerText = player.level;
             document.getElementById('player-hp-text').innerText = `${Math.max(0, player.hp)}/${player.maxHp}`;
             document.getElementById('player-hp-bar').style.width = `${Math.max(0, (player.hp / player.maxHp) * 100)}%`;
+            document.getElementById('player-exp-text').innerText = `${player.exp}/${player.maxExp}`;
             document.getElementById('player-exp-bar').style.width = `${Math.max(0, (player.exp / player.maxExp) * 100)}%`;
             document.getElementById('combo-text').innerText = player.combo;
+
             document.getElementById('monster-hp-text').innerText = `${Math.max(0, boss.hp)}/${boss.maxHp}`;
             document.getElementById('monster-hp-bar').style.width = `${Math.max(0, (boss.hp / boss.maxHp) * 100)}%`;
             document.getElementById('monster-atk-text').innerText = boss.atk;
-            document.getElementById('monster-diff-text').innerText = player.level >= 7 ? "程度三 (特殊角求值)" : (player.level >= 4 ? "程度二 (跨界負角變換)" : "程度一 (單次銳角化簡)");
+
+            let diffText = player.level >= 7 ? "程度三 (特殊角求值)" : (player.level >= 4 ? "程度二 (跨界負角變換)" : "程度一 (單次銳角化簡)");
+            document.getElementById('monster-diff-text').innerText = diffText;
+        }
+
+        function addLog(msg, isError = false, isLevelUp = false) {
+            const logPanel = document.getElementById('battle-log');
+            const p = document.createElement('div');
+            p.innerText = msg;
+            if (isError) p.className = 'text-rose-600 font-bold';
+            else if (isLevelUp) p.className = 'text-sky-600 font-black animate-bounce';
+            else p.className = 'text-slate-600';
+            logPanel.appendChild(p); logPanel.scrollTop = logPanel.scrollHeight;
+        }
+
+        function playAttackAnim() {
+            anime({ targets: '#player-avatar', translateX: [0, 45, 0], scale: [1, 1.2, 1], duration: 350, easing: 'easeOutBack' });
+            anime({ targets: '#monster-avatar', opacity: [1, 0.2, 1], scale: [1, 0.8, 1], rotate: [0, 15, 0], duration: 400, delay: 150, easing: 'linear' });
+        }
+
+        function playErrorAnim() {
+            anime({ targets: '#monster-avatar', translateX: [0, -45, 0], scale: [1, 1.3, 1], duration: 300, easing: 'easeOutBack' });
+            anime({ targets: '#combat-center', translateX: [{ value: -8 }, { value: 8 }, { value: -6 }, { value: 6 }, { value: 0 }], duration: 300, delay: 150, easing: 'linear' });
+            anime({ targets: '#player-avatar', opacity: [1, 0.2, 1], translateX: [0, -15, 0], duration: 400, delay: 150, easing: 'linear' });
         }
 
         function playEvolutionAnim(targetId) {
-            const el = document.querySelector(targetId); el.classList.add('evolution-glow');
-            anime({ targets: targetId, scale: [0.5, 1.5, 1], rotate: '1turn', opacity: [0.5, 1], duration: 1500, easing: 'easeInOutSine', complete: function() { el.classList.remove('evolution-glow'); } });
+            const el = document.querySelector(targetId);
+            el.classList.add('evolution-glow');
+            anime({
+                targets: targetId,
+                scale: [0.5, 1.5, 1],
+                rotate: '1turn',
+                opacity: [0.5, 1],
+                duration: 1500,
+                easing: 'easeInOutSine',
+                complete: function() { el.classList.remove('evolution-glow'); }
+            });
         }
 
         function showScreenMessage(mainText, colorClass, sticky = false) {
             const fx = document.getElementById('fullscreen-fx');
-            fx.classList.remove('hidden'); document.getElementById('fx-text').className = `text-6xl md:text-8xl font-black text-center drop-shadow-md ${colorClass}`;
-            document.getElementById('fx-text').innerText = mainText;
-            if (sticky) { fx.classList.add('opacity-100'); fx.style.pointerEvents = 'auto'; document.getElementById('fx-subtext').classList.remove('hidden'); fx.onclick = () => location.reload(); } 
-            else { anime({ targets: fx, opacity: [0, 1, 0], scale: [0.8, 1.1, 1.5], duration: 1800, complete: function() { fx.classList.add('hidden'); } }); }
+            const fxText = document.getElementById('fx-text');
+            const sub = document.getElementById('fx-subtext');
+            
+            fx.classList.remove('hidden');
+            fxText.className = `text-6xl md:text-8xl font-black tracking-widest text-center drop-shadow-md ${colorClass}`;
+            fxText.innerText = mainText;
+            
+            if (sticky) {
+                fx.classList.remove('opacity-0'); fx.classList.add('opacity-100');
+                fx.style.pointerEvents = 'auto'; sub.classList.remove('hidden');
+                fx.onclick = () => location.reload();
+            } else {
+                fx.style.pointerEvents = 'none';
+                anime({
+                    targets: fx,
+                    opacity: [0, 1, 0],
+                    scale: [0.8, 1.1, 1.5],
+                    duration: 1800,
+                    easing: 'easeOutExpo',
+                    complete: function() { fx.classList.add('hidden'); }
+                });
+            }
         }
-        window.onload = initLoginUI;
+
+        function triggerGameOver() {
+            isGameOver = true;
+            addLog(`💀 你的生命值已歸零。討伐失敗...`, true);
+            setTimeout(() => {
+                showScreenMessage("GAME OVER", "text-rose-600", true);
+            }, 800);
+        }
+
+        function triggerWin() {
+            isGameOver = true;
+            addLog(`👑 難以置信！你成功擊殺了終極魔王！世界恢復了數學的和平！`, false, true);
+            setTimeout(() => {
+                showScreenMessage("VICTORY!", "text-amber-500", true);
+            }, 800);
+        }
+
+        // 確保網頁讀取完畢後初始化
+        if (document.readyState === 'complete') { initLoginUI(); } else { window.onload = initLoginUI; }
     </script>
 </body>
 </html>
