@@ -280,11 +280,14 @@
                 level: player.level, addedDamage: pendingDamage, combo: player.combo, answers: pendingAnswers
             };
             pendingDamage = 0; pendingAnswers = [];
+            
+            // 💡 關鍵修復：加入 mode: 'no-cors' 強制避開跨域阻擋
             fetch(GAS_URL, {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: "data=" + encodeURIComponent(JSON.stringify(payload))
-            }).catch(e => console.error(e));
+            }).catch(e => console.error("Sync Error", e));
         }, 10000);
 
         function getPlayerAsset(lvl) {
@@ -304,7 +307,12 @@
             return (isNeg ? "-" : "") + fracStr;
         }
 
-        // 🧠 全新！等式連環產生器 (例如: \sin 200 = \sin(180+20) = -\sin 20)
+        function formatFunc(f, ang, forceBrackets = false) {
+            if (forceBrackets || String(ang).includes('-') || String(ang).includes('+')) return `${f}(${ang})`;
+            return `${f} ${ang}`;
+        }
+
+        // 🧠 全新！等式連環產生器
         function generateDynamicQuestion(typeReq) {
             isRadianMode = Math.random() < 0.5; 
             const btnDegree = document.getElementById('btn-degree');
@@ -327,7 +335,7 @@
             let quadrant = (typeReq < 3) ? [2, 3, 4][Math.floor(Math.random()*3)] : [1, 2, 3, 4][Math.floor(Math.random()*4)];
             let baseAngle = (quadrant===1)?refAngle : (quadrant===2)?180-refAngle : (quadrant===3)?180+refAngle : 360-refAngle;
             
-            // 3. 處理同界角 (題型2、3)
+            // 3. 處理同界角
             let qAngle = baseAngle;
             if (typeReq === 2 || (typeReq === 3 && Math.random() < 0.5)) {
                 qAngle = baseAngle + [-1, 1, 2][Math.floor(Math.random() * 3)] * 360;
@@ -340,11 +348,9 @@
             let baseAngleStr = isRadianMode ? degreeToRadianLatex(baseAngle) : `${baseAngle}^\\circ`;
             let refAngleStr = isRadianMode ? degreeToRadianLatex(refAngle) : `${refAngle}^\\circ`;
 
-            // 題目顯示 (如果是負角則加括號)
-            let qDisplay = (qAngle < 0) ? `${func}(${qAngleStr})` : `${func} ${qAngleStr}`;
+            let qDisplay = formatFunc(func, qAngleStr);
             let reducedFunc = `${signStr}${func} ${refAngleStr}`;
             
-            // 最終答案
             let answer = "";
             if (typeReq < 3) {
                 answer = reducedFunc;
@@ -360,12 +366,10 @@
             let steps = [];
             steps.push(qDisplay);
 
-            // 步驟 A: 如果有跨越 360 的同界角，先退回 0~360
             if (qAngle !== baseAngle && baseAngle !== refAngle) {
                 steps.push(`${func} ${baseAngleStr}`);
             }
 
-            // 步驟 B: 顯示拆解過程 (例如 180 + 20)
             if (baseAngle !== refAngle && baseAngle !== 0) {
                 let breakdown = "";
                 if (isRadianMode) {
@@ -380,7 +384,6 @@
                 if (breakdown) steps.push(`${func}(${breakdown})`);
             }
 
-            // 步驟 C: 化簡後的函數
             if (typeReq === 3) {
                 if (steps[steps.length - 1] !== reducedFunc) steps.push(reducedFunc);
                 steps.push(answer);
@@ -420,7 +423,7 @@
             currentQuestion = generateDynamicQuestion(currentTypeReq);
             usedHintForCurrent = false;
             
-            // 完美渲染題目 (恢復為使用 displayMode)
+            // 使用 displayMode 完美置中渲染
             katex.render(currentQuestion.q, document.getElementById('question-display'), { displayMode: true, throwOnError: false });
             document.getElementById('hint-display').style.opacity = 0;
             
@@ -501,7 +504,6 @@
                     <div id="process-center" class="process-scroll text-center flex justify-center py-2 text-slate-800 font-bold w-full"></div>
                 `;
                 
-                // 動態渲染生成的過程，使用 displayMode 確保排版完美
                 katex.render(currentQuestion.process, document.getElementById('process-center'), { displayMode: true, throwOnError: false });
 
                 addLog(`🔴 答錯了！巨龍趁隙發動反擊，對你造成 ${boss.atk} 點傷害！`, true);
@@ -604,22 +606,6 @@
                     complete: function() { fx.classList.add('hidden'); }
                 });
             }
-        }
-
-        function triggerGameOver() {
-            isGameOver = true;
-            addLog(`💀 你的生命值已歸零。討伐失敗...`, true);
-            setTimeout(() => {
-                showScreenMessage("GAME OVER", "text-rose-600", true);
-            }, 800);
-        }
-
-        function triggerWin() {
-            isGameOver = true;
-            addLog(`👑 難以置信！你成功擊殺了終極魔王！世界恢復了數學的和平！`, false, true);
-            setTimeout(() => {
-                showScreenMessage("VICTORY!", "text-amber-500", true);
-            }, 800);
         }
 
         // 確保網頁讀取完畢後初始化
