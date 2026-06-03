@@ -12,98 +12,112 @@
         .hp-bar-fill { background: linear-gradient(90deg, #e11d48 0%, #f43f5e 100%); transition: width 1s ease-in-out; box-shadow: 0 0 20px rgba(244, 63, 94, 0.6); }
         .alert-flash { animation: flashRed 1.5s infinite; }
         @keyframes flashRed { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 50% { box-shadow: 0 0 20px 10px rgba(239, 68, 68, 0.4); border-color: #ef4444; } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        /* 美化捲軸 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
     </style>
 </head>
 <body class="p-6 h-screen flex flex-col">
 
     <header class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400 tracking-widest">
+        <h1 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400 tracking-widest drop-shadow-md">
             🔥 暗黑幾何巨龍：討伐戰情室
         </h1>
         <div class="flex gap-4">
-            <select id="class-filter" class="bg-slate-800 border border-slate-600 text-white px-4 py-2 rounded-lg font-bold" onchange="fetchData()">
+            <select id="class-filter" class="bg-slate-800 border-2 border-slate-600 text-white px-6 py-3 rounded-xl font-bold text-xl cursor-pointer" onchange="fetchData()">
                 <option value="">全校總覽</option>
                 <option value="高一甲">高一甲</option>
                 <option value="高一乙">高一乙</option>
                 <option value="高一丙">高一丙</option>
                 <option value="高一丁">高一丁</option>
             </select>
-            <button onclick="resetData()" class="bg-red-900/50 text-red-400 border border-red-500 hover:bg-red-800 px-4 py-2 rounded-lg font-bold transition">重置該班紀錄</button>
+            <button onclick="resetData()" class="bg-red-900/50 text-red-400 border-2 border-red-500 hover:bg-red-800 px-6 py-3 rounded-xl font-bold text-xl transition shadow-lg cursor-pointer">重置該班紀錄</button>
         </div>
     </header>
 
-    <div class="w-full mb-6">
-        <div class="flex justify-between text-rose-300 font-bold mb-2 text-xl px-2">
+    <div class="w-full mb-8">
+        <div class="flex justify-between text-rose-300 font-black mb-3 text-2xl px-2 drop-shadow-sm">
             <span>😈 終極魔王 HP</span>
             <span id="boss-hp-text">10000 / 10000</span>
         </div>
-        <div class="w-full h-8 hp-bar-bg rounded-full overflow-hidden relative">
+        <div class="w-full h-12 hp-bar-bg rounded-full overflow-hidden relative">
             <div id="boss-hp-fill" class="h-full hp-bar-fill rounded-full" style="width: 100%;"></div>
         </div>
     </div>
 
-    <div class="grid grid-cols-12 gap-6 mb-6 flex-grow">
+    <div class="grid grid-cols-4 gap-6 mb-8 flex-grow">
         
-        <div class="col-span-8 grid grid-cols-3 gap-6">
-            <div class="glass-dark p-4 flex flex-col">
-                <h3 class="text-center font-black text-orange-400 mb-3 text-lg border-b border-slate-600 pb-2">⚔️ 輸出王 (總傷害)</h3>
-                <ul id="list-damage" class="space-y-2 flex-grow overflow-y-auto"></ul>
-            </div>
-            <div class="glass-dark p-4 flex flex-col">
-                <h3 class="text-center font-black text-sky-400 mb-3 text-lg border-b border-slate-600 pb-2">⚡ 連擊王 (最高Combo)</h3>
-                <ul id="list-combo" class="space-y-2 flex-grow overflow-y-auto"></ul>
-            </div>
-            <div class="glass-dark p-4 flex flex-col">
-                <h3 class="text-center font-black text-emerald-400 mb-3 text-lg border-b border-slate-600 pb-2">🎓 學霸王 (正確率)</h3>
-                <ul id="list-acc" class="space-y-2 flex-grow overflow-y-auto"></ul>
-            </div>
+        <div class="glass-dark p-5 flex flex-col">
+            <h3 class="text-center font-black text-orange-400 mb-4 text-2xl border-b-2 border-slate-600 pb-3">⚔️ 輸出王 (總傷害)</h3>
+            <ul id="list-damage" class="space-y-3 flex-grow overflow-y-auto pr-2"></ul>
+        </div>
+        <div class="glass-dark p-5 flex flex-col">
+            <h3 class="text-center font-black text-sky-400 mb-4 text-2xl border-b-2 border-slate-600 pb-3">⚡ 連擊王 (最高Combo)</h3>
+            <ul id="list-combo" class="space-y-3 flex-grow overflow-y-auto pr-2"></ul>
+        </div>
+        <div class="glass-dark p-5 flex flex-col">
+            <h3 class="text-center font-black text-emerald-400 mb-4 text-2xl border-b-2 border-slate-600 pb-3">🎓 學霸王 (正確率)</h3>
+            <ul id="list-acc" class="space-y-3 flex-grow overflow-y-auto pr-2"></ul>
         </div>
 
-        <div class="col-span-4 flex flex-col gap-6">
-            <div class="glass-dark p-4 bg-red-950/20 border-red-900 border-2">
-                <h3 class="text-center font-black text-red-500 mb-2 text-lg">🚨 戰況危急警告 (需支援)</h3>
-                <div id="warning-list" class="text-sm space-y-2 max-h-32 overflow-y-auto font-bold text-red-300">
-                    <div class="text-center text-slate-500 mt-4">目前無學生遭遇危險</div>
-                </div>
-            </div>
-
-            <div class="glass-dark p-4 flex-grow flex items-center justify-center">
-                <canvas id="radarChart"></canvas>
+        <div class="glass-dark p-5 bg-red-950/20 border-red-900 border-4 flex flex-col">
+            <h3 class="text-center font-black text-red-500 mb-4 text-2xl border-b-2 border-red-900 pb-3">🚨 危急警告 (需支援)</h3>
+            <div id="warning-list" class="space-y-4 flex-grow overflow-y-auto font-black text-red-300 pr-2 text-xl">
+                <div class="text-center text-slate-500 mt-6">目前無學生遭遇危險</div>
             </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-6 h-64">
+    <div class="grid grid-cols-2 gap-6 h-80">
         <div class="glass-dark p-4"><canvas id="barChart"></canvas></div>
         <div class="glass-dark p-4 flex justify-center"><canvas id="pieChart"></canvas></div>
     </div>
 
     <script>
-        // ⚠️ 請填入您的 GAS 網址 (與遊戲端相同)
+        // ⚠️ 請確保這是您剛才部署取得的正確 GAS 網址
         const GAS_URL = "https://script.google.com/macros/s/AKfycby3kwx7xzFAl0Dc02Myo9C7pvlk0T7rSCA0mSA7p4aWyylz8cfX-u0mHlC0-hiFiJwp/exec";
         
-        let radarChart, barChart, pieChart;
+        let barChart, pieChart;
 
-        // 初始化圖表
+        // 初始化圖表 (設定全域字體變大)
         function initCharts() {
             Chart.defaults.color = '#cbd5e1';
+            Chart.defaults.font.size = 18; // 圖表全域字體放大
+            Chart.defaults.font.weight = 'bold';
             
-            radarChart = new Chart(document.getElementById('radarChart'), {
-                type: 'radar',
-                data: { labels: ['單次化簡 (易)', '跨界負角 (中)', '特殊角求值 (難)'], datasets: [{ label: '全班正確率', data: [0,0,0], backgroundColor: 'rgba(14, 165, 233, 0.4)', borderColor: '#0ea5e9', pointBackgroundColor: '#fff' }] },
-                options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { font: { size: 12 } }, ticks: { display: false, min: 0, max: 100 } } } }
-            });
-
             barChart = new Chart(document.getElementById('barChart'), {
                 type: 'bar',
-                data: { labels: [], datasets: [{ label: '易錯題目排行 (錯誤次數)', data: [], backgroundColor: 'rgba(244, 63, 94, 0.7)' }] },
-                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y' }
+                data: { labels: [], datasets: [{ label: '易錯題目排行 (錯誤次數)', data: [], backgroundColor: 'rgba(244, 63, 94, 0.8)' }] },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { labels: { font: { size: 20 } } }
+                    },
+                    scales: {
+                        y: { ticks: { font: { size: 18 } } },
+                        x: { ticks: { font: { size: 18 } } }
+                    }
+                }
             });
 
             pieChart = new Chart(document.getElementById('pieChart'), {
                 type: 'doughnut',
-                data: { labels: ['見習生 (Lv 1~3)', '進階術士 (Lv 4~6)', '大魔法師 (Lv 7+)'], datasets: [{ data: [0,0,0], backgroundColor: ['#94a3b8', '#38bdf8', '#fbbf24'], borderWidth: 0 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' }, title: { display: true, text: '班級戰力分佈', color: '#fff' } } }
+                data: { 
+                    labels: ['見習生 (Lv 1~3)', '進階術士 (Lv 4~6)', '大魔法師 (Lv 7+)'], 
+                    datasets: [{ data: [0,0,0], backgroundColor: ['#94a3b8', '#38bdf8', '#fbbf24'], borderWidth: 0 }] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { position: 'right', labels: { font: { size: 20, weight: 'bold' }, padding: 20 } }, 
+                        title: { display: true, text: '全班戰力分佈', color: '#fff', font: { size: 26, weight: '900' }, padding: { bottom: 20 } } 
+                    } 
+                }
             });
         }
 
@@ -122,51 +136,41 @@
             document.getElementById('boss-hp-fill').style.width = hpPct + "%";
             document.getElementById('boss-hp-text').innerText = `${Math.floor(data.bossHp)} / ${data.bossMaxHp}`;
 
-            // 排行榜生成
+            // 排行榜生成 (字體加大、排版加寬)
             const sortedDamage = [...data.players].sort((a,b) => b.damage - a.damage).slice(0, 10);
             const sortedCombo = [...data.players].sort((a,b) => b.combo - a.combo).slice(0, 10);
-            const sortedAcc = [...data.players].filter(p => p.totalAns >= 5).sort((a,b) => b.acc - a.acc).slice(0, 10); // 至少答5題才列入學霸榜
+            const sortedAcc = [...data.players].filter(p => p.totalAns >= 5).sort((a,b) => b.acc - a.acc).slice(0, 10); // 至少答5題才列入榜單
 
             const createListHTML = (arr, valKey, suffix = "") => arr.map((p, i) => `
-                <li class="flex justify-between bg-slate-800/50 p-2 rounded">
-                    <span><span class="text-slate-400 w-4 inline-block">${i+1}.</span> ${p.name} <span class="text-xs text-slate-500">(Lv.${p.level})</span></span>
-                    <span class="font-bold text-white">${p[valKey]}${suffix}</span>
+                <li class="flex justify-between items-center bg-slate-800/50 p-3 rounded-lg border border-slate-700">
+                    <span class="text-xl font-bold"><span class="text-slate-400 w-8 inline-block text-center font-black">${i+1}.</span> ${p.name} <span class="text-sm text-slate-400 ml-1">(Lv.${p.level})</span></span>
+                    <span class="font-black text-white text-2xl">${p[valKey]}${suffix}</span>
                 </li>`).join('');
 
-            document.getElementById('list-damage').innerHTML = createListHTML(sortedDamage, 'damage') || '<li class="text-center text-slate-500">尚無數據</li>';
-            document.getElementById('list-combo').innerHTML = createListHTML(sortedCombo, 'combo') || '<li class="text-center text-slate-500">尚無數據</li>';
-            document.getElementById('list-acc').innerHTML = createListHTML(sortedAcc, 'acc', '%') || '<li class="text-center text-slate-500">尚無數據 (需答滿5題)</li>';
+            document.getElementById('list-damage').innerHTML = createListHTML(sortedDamage, 'damage') || '<li class="text-center text-slate-500 text-lg mt-4">尚無數據</li>';
+            document.getElementById('list-combo').innerHTML = createListHTML(sortedCombo, 'combo') || '<li class="text-center text-slate-500 text-lg mt-4">尚無數據</li>';
+            document.getElementById('list-acc').innerHTML = createListHTML(sortedAcc, 'acc', '%') || '<li class="text-center text-slate-500 text-lg mt-4">尚無數據 (需答滿5題)</li>';
 
-            // 🚨 智慧警告系統
+            // 🚨 智慧警告系統 (字體加大、外框加粗)
             const warningList = document.getElementById('warning-list');
             let warnings = [];
             data.players.forEach(p => {
-                if (p.mistakes >= 5) warnings.push(`<div class="bg-red-500/20 p-2 rounded border border-red-500 alert-flash">⚠️ ${p.name} 已連續答錯 ${p.mistakes} 題！</div>`);
-                else if (p.totalAns >= 5 && p.acc < 0.6) warnings.push(`<div class="bg-orange-500/20 p-2 rounded border border-orange-500">⚠️ ${p.name} 正確率過低 (${(p.acc*100).toFixed(0)}%)</div>`);
+                if (p.mistakes >= 5) warnings.push(`<div class="bg-red-500/20 p-4 rounded-xl border-2 border-red-500 alert-flash shadow-lg text-red-200">⚠️ ${p.name}<br>連續答錯 ${p.mistakes} 題！</div>`);
+                else if (p.totalAns >= 5 && p.acc < 0.6) warnings.push(`<div class="bg-orange-500/20 p-4 rounded-xl border-2 border-orange-500 shadow-lg text-orange-200">⚠️ ${p.name}<br>正確率過低 (${(p.acc*100).toFixed(0)}%)</div>`);
             });
-            warningList.innerHTML = warnings.length > 0 ? warnings.join('') : '<div class="text-center text-slate-500 mt-4">目前無學生遭遇危險</div>';
+            warningList.innerHTML = warnings.length > 0 ? warnings.join('') : '<div class="text-center text-slate-500 mt-6 text-xl">目前無學生遭遇危險</div>';
 
             // 圖表數據運算
-            let typeStats = { 1:{c:0, t:0}, 2:{c:0, t:0}, 3:{c:0, t:0} };
             let errorMap = {};
             data.logs.forEach(log => {
-                if (typeStats[log.type]) {
-                    typeStats[log.type].t++;
-                    if (log.isCorrect) typeStats[log.type].c++;
-                }
                 if (!log.isCorrect) {
                     errorMap[log.question] = (errorMap[log.question] || 0) + 1;
                 }
             });
 
-            // 更新雷達圖 (精算正確率)
-            const radarData = [1,2,3].map(t => typeStats[t].t > 0 ? Math.round((typeStats[t].c / typeStats[t].t) * 100) : 0);
-            radarChart.data.datasets[0].data = radarData;
-            radarChart.update();
-
             // 更新長條圖 (易錯前 5 名)
             const sortedErrors = Object.entries(errorMap).sort((a,b) => b[1] - a[1]).slice(0, 5);
-            barChart.data.labels = sortedErrors.map(e => e[0].substring(0, 15)); // 截斷過長題目
+            barChart.data.labels = sortedErrors.map(e => e[0].substring(0, 15)); 
             barChart.data.datasets[0].data = sortedErrors.map(e => e[1]);
             barChart.update();
 
@@ -183,10 +187,10 @@
 
         async function resetData() {
             const cls = document.getElementById('class-filter').value;
-            if(!cls) { alert("請先在右上角選擇一個特定班級才能重置！"); return; }
-            if(confirm(`確定要清空【${cls}】的所有戰鬥紀錄嗎？此操作無法還原。`)) {
+            if(!cls) { alert("請先在上方選擇一個特定班級，才能執行重置喔！"); return; }
+            if(confirm(`⚠️ 確定要清空【${cls}】的所有戰鬥紀錄嗎？此操作無法還原！`)) {
                 await fetch(`${GAS_URL}?action=reset&className=${encodeURIComponent(cls)}`);
-                alert("資料已重置！");
+                alert(`✅ 【${cls}】資料已重置完畢！`);
                 fetchData();
             }
         }
@@ -194,7 +198,7 @@
         // 啟動程式 (每 3 秒自動抓取)
         initCharts();
         fetchData();
-        setInterval(fetchData, 3000);
+        setInterval(fetchData, 5000);
     </script>
 </body>
 </html>
