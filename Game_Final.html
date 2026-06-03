@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>怪獸數學大作戰：誘導公式</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { theme: { extend: { colors: { heroGreen: '#0ea5e9', monsterRed: '#f43f5e', bgDeepBlue: '#f0f9ff' }, fontFamily: { 'cartoon': ['"Nunito"', '"Segoe UI"', 'sans-serif'] } } } }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
 
     <style>
         body {
@@ -27,6 +30,7 @@
             background: #ffffff; border: 2px solid #cbd5e1; border-bottom: 5px solid #cbd5e1; border-radius: 16px;
             color: #475569; font-weight: 800; transition: all 0.1s; display: flex; align-items: center; justify-content: center;
         }
+        .math-btn:hover:not(:disabled) { background: #f8fafc; transform: translateY(1px); border-bottom-width: 4px; margin-bottom: 1px; }
         .math-btn:active:not(:disabled) { transform: translateY(5px); border-bottom-width: 0px; margin-bottom: 5px; background: #f1f5f9; }
         .btn-func { color: #0284c7; border-color: #bae6fd; border-bottom-color: #7dd3fc; background: #f0f9ff; }
         .btn-num { font-size: 1.25rem; color: #334155; }
@@ -40,6 +44,8 @@
             background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.8rem auto;
         }
         .katex { color: #1e293b !important; }
+        .process-scroll { overflow-x: auto; overflow-y: hidden; width: 100%; padding-bottom: 10px; }
+        img { min-height: 80px; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative">
@@ -75,6 +81,7 @@
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-7 gap-4 md:gap-6 flex-grow max-w-7xl mx-auto w-full">
+            
             <section class="glass-panel p-4 flex flex-col items-center col-span-1 lg:col-span-2 relative">
                 <div id="player-title" class="absolute top-3 left-3 text-xs md:text-sm font-black text-sky-700 bg-sky-100 border-2 border-sky-300 px-3 py-1 rounded-full shadow-sm">見習生</div>
                 <img id="player-avatar" src="player-lv1.png" alt="魔法師" class="h-40 md:h-48 w-40 md:w-48 object-contain mb-3 drop-shadow-lg">
@@ -93,28 +100,30 @@
             <section id="combat-center" class="glass-panel p-4 flex flex-col col-span-1 lg:col-span-3">
                 <div class="text-center mb-3">
                     <p class="text-sm mb-2 text-slate-600 font-black tracking-wide">請將下列化為銳角三角函數（0°～90° 或 0～π/2）：</p>
-                    <div id="question-display" class="text-4xl min-h-[60px] py-3 bg-white border-4 border-blue-100 rounded-2xl flex items-center justify-center text-slate-800"></div>
+                    <div id="question-display" class="text-4xl min-h-[60px] py-3 bg-white border-4 border-blue-100 rounded-2xl flex items-center justify-center text-slate-800 shadow-inner"></div>
                 </div>
                 <div class="text-center mb-2 min-h-[40px] flex justify-center gap-2">
                     <button id="hint-btn" onclick="showHint()" class="text-sm font-bold bg-amber-100 text-amber-600 px-5 py-1.5 rounded-full border-2 border-amber-300">💡 顯示參考角 (提示)</button>
                 </div>
                 <div id="hint-display" class="text-center mb-3 text-lg text-amber-600 opacity-0 min-h-[28px] font-black flex items-center justify-center bg-amber-50 rounded-lg py-1 border border-amber-200"></div>
+                
                 <div class="text-sm text-slate-500 font-bold mb-1 pl-1">魔法陣輸入：</div>
-                <div id="input-display" class="text-3xl min-h-[75px] mb-4 p-3 bg-white border-4 border-slate-200 rounded-2xl flex items-center justify-center text-slate-800 transition-all">
+                <div id="input-display" class="text-3xl min-h-[75px] mb-4 p-3 bg-white border-4 border-slate-200 rounded-2xl flex items-center justify-center text-slate-800 transition-all shadow-inner">
                     <span id="input-cursor" class="animate-pulse text-sky-400">_</span>
                 </div>
+                
                 <div class="flex flex-col gap-3 flex-grow">
                     <div class="grid grid-cols-4 gap-2 md:gap-3">
-                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\sin ')">sin</button>
-                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\cos ')">cos</button>
-                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\tan ')">tan</button>
-                        <button id="btn-degree" class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-xl" onclick="typeIn('^\\circ')">°</button>
+                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\\\sin ')">sin</button>
+                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\\\cos ')">cos</button>
+                        <button class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-lg" onclick="typeIn('\\\\tan ')">tan</button>
+                        <button id="btn-degree" class="math-btn btn-func min-h-[50px] md:min-h-[60px] text-xl" onclick="typeIn('^\\\\circ')">°</button>
                     </div>
                     <div class="grid grid-cols-4 gap-2 md:gap-3">
-                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-orange-500" onclick="typeIn('\\pi')">π</button>
-                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-emerald-600" onclick="typeIn('/')">/</button>
-                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-emerald-600" onclick="typeIn('\\sqrt{')">√</button>
-                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-2xl text-red-500" onclick="typeIn('-')">－</button>
+                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-orange-500 border-orange-200 border-bottom-orange-300" onclick="typeIn('\\\\pi')">π</button>
+                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-emerald-600 border-emerald-200 border-bottom-emerald-300" onclick="typeIn('/')">/</button>
+                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-xl text-emerald-600 border-emerald-200 border-bottom-emerald-300" onclick="typeIn('\\\\sqrt{')">√</button>
+                        <button class="math-btn min-h-[50px] md:min-h-[60px] text-2xl text-red-500 border-red-200 border-bottom-red-300" onclick="typeIn('-')">－</button>
                     </div>
                     <div class="grid grid-cols-4 gap-2 md:gap-3 flex-grow">
                         <div class="col-span-3 grid grid-cols-3 gap-2 md:gap-3">
@@ -143,6 +152,12 @@
                 <div id="monster-title" class="absolute top-3 right-3 text-xs md:text-sm font-black text-rose-700 bg-rose-100 border-2 border-rose-300 px-3 py-1 rounded-full animate-pulse">史詩級 Boss</div>
                 <img id="monster-avatar" src="monster-lv7.png" alt="終極巨龍" class="h-48 md:h-56 w-48 md:w-56 object-contain mb-3 drop-shadow-[0_10px_20px_rgba(244,63,94,0.4)]">
                 <h2 class="text-xl font-black text-rose-500 mb-1">暗黑幾何巨龍</h2>
+                <div class="w-full mt-2 font-bold px-2">
+                    <div class="flex justify-between text-xs mb-1 text-slate-600"><span>BOSS HP</span><span id="monster-hp-text">1000/1000</span></div>
+                    <div class="w-full bg-slate-200 rounded-full h-4 border border-slate-300">
+                        <div id="monster-hp-bar" class="bg-rose-400 h-full rounded-full bar-transition" style="width: 100%"></div>
+                    </div>
+                </div>
                 <div class="mt-4 bg-white border-2 border-slate-200 p-3 rounded-xl w-[90%] text-center">
                     <p class="text-xs text-slate-500 font-bold">魔王結界強度：</p>
                     <p id="monster-diff-text" class="text-sm font-black text-indigo-500 mt-1">程度一 (單次銳角化簡)</p>
@@ -190,14 +205,9 @@
             if (studentDB[cls] && studentDB[cls][id]) {
                 nameDisplay.innerText = studentDB[cls][id];
                 nameDisplay.className = "text-3xl font-black text-emerald-500 mt-1";
-                btnLogin.disabled = false; btnLogin.classList.remove('opacity-50');
+                btnLogin.disabled = false; btnLogin.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         }
-
-        let player = { className: "", id: "", name: "", level: 1, hp: 100, maxHp: 100, exp: 0, maxExp: 100, combo: 0, atk: 35 };
-        let boss = { atk: 15 };
-        let currentQuestion = null; let currentTypeReq = 1;
-        let inputTokens = []; let questionStartTime = 0; let isQuestionActive = true; let isGameOver = false;
 
         function handleLogin() {
             player.className = document.getElementById('class-select').value;
@@ -212,82 +222,128 @@
         }
 
         // ==========================================
-        // 🚀 背景數據同步引擎 (每 10 秒發送一次)
+        // 🎮 遊戲核心與過程生成邏輯
         // ==========================================
+        let isRadianMode = false;
+        let isQuestionActive = true;
+        let isGameOver = false;
+
+        let player = { className: "", id: "", name: "", level: 1, hp: 100, maxHp: 100, exp: 0, maxExp: 100, combo: 0, atk: 35 };
+        let boss = { hp: 1000, maxHp: 1000, baseExp: 35, atk: 15 };
+        let currentQuestion = null; let currentTypeReq = 1;
+        let inputTokens = []; let questionStartTime = 0;
+
+        // 背景同步
         setInterval(() => {
             if (!player.name || (pendingDamage === 0 && pendingAnswers.length === 0)) return;
-            const payload = {
-                className: player.className, id: player.id, name: player.name,
-                level: player.level, addedDamage: pendingDamage, combo: player.combo, answers: pendingAnswers
-            };
-            // 淨空緩衝區
+            const payload = { className: player.className, id: player.id, name: player.name, level: player.level, addedDamage: pendingDamage, combo: player.combo, answers: pendingAnswers };
             pendingDamage = 0; pendingAnswers = [];
-            
-            fetch(GAS_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: "data=" + encodeURIComponent(JSON.stringify(payload))
-            }).catch(e => console.error("Sync Error", e));
+            fetch(GAS_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: "data=" + encodeURIComponent(JSON.stringify(payload)) }).catch(e => console.error(e));
         }, 10000);
+
+        function getPlayerAsset(lvl) {
+            if (lvl >= 7) return { img: "player-lv7.png", title: "大魔法師" };
+            if (lvl >= 4) return { img: "player-lv4.png", title: "進階術士" };
+            return { img: "player-lv1.png", title: "見習生" };
+        }
 
         function degreeToRadianLatex(deg) {
             if (deg === 0) return "0";
             let isNeg = deg < 0; deg = Math.abs(deg);
             let gcd = function(a, b) { return b ? gcd(b, a % b) : a; };
             let divisor = gcd(deg, 180);
-            let numStr = (deg/divisor === 1) ? "\\pi" : (deg/divisor) + "\\pi";
-            return (isNeg ? "-" : "") + ((180/divisor === 1) ? numStr : `\\frac{${numStr}}{${180/divisor}}`);
+            let num = deg / divisor; let den = 180 / divisor;
+            let numStr = (num === 1) ? "\\pi" : num + "\\pi";
+            let fracStr = (den === 1) ? numStr : `\\frac{${numStr}}{${den}}`;
+            return (isNeg ? "-" : "") + fracStr;
         }
 
+        // 格式化函式，確保只有負角與括號加法時才掛括號，模擬真實書寫
+        function formatFunc(f, ang, forceBrackets = false) {
+            if (forceBrackets || ang.toString().includes('-') || ang.toString().includes('+')) return `${f}(${ang})`;
+            return `${f} ${ang}`;
+        }
+
+        // 🧠 產生連貫式的標準數學解題過程 (例如: sin200 = sin(180+20) = -sin20)
         function generateDynamicQuestion(typeReq) {
             isRadianMode = Math.random() < 0.5; 
             const btnDegree = document.getElementById('btn-degree');
-            if (isRadianMode) { btnDegree.classList.add('opacity-40'); btnDegree.disabled = true; } 
-            else { btnDegree.classList.remove('opacity-40'); btnDegree.disabled = false; }
+            if (isRadianMode) { btnDegree.classList.add('opacity-40', 'cursor-not-allowed'); btnDegree.disabled = true; } 
+            else { btnDegree.classList.remove('opacity-40', 'cursor-not-allowed'); btnDegree.disabled = false; }
 
             const functions = ['\\sin', '\\cos', '\\tan'];
             let func = functions[Math.floor(Math.random() * functions.length)];
-            let refAngle = (typeReq === 3) ? [30, 45, 60][Math.floor(Math.random()*3)] : [20, 40, 70, 80][Math.floor(Math.random()*4)];
-            if (typeReq === 3 && func === '\\tan' && refAngle === 30) refAngle = Math.random() < 0.5 ? 45 : 60;
 
-            let quadrant = [1, 2, 3, 4][Math.floor(Math.random() * 4)];
-            if(typeReq < 3) quadrant = [2, 3, 4][Math.floor(Math.random() * 3)];
-            
+            let refAngle = 0;
+            if (typeReq === 1 || typeReq === 2) {
+                refAngle = [20, 40, 70, 80][Math.floor(Math.random()*4)];
+            } else {
+                refAngle = [30, 45, 60][Math.floor(Math.random()*3)];
+                if (func === '\\tan' && refAngle === 30) refAngle = Math.random() < 0.5 ? 45 : 60;
+            }
+
+            let quadrant = (typeReq < 3) ? [2, 3, 4][Math.floor(Math.random()*3)] : [1, 2, 3, 4][Math.floor(Math.random()*4)];
             let baseAngle = (quadrant===1)?refAngle : (quadrant===2)?180-refAngle : (quadrant===3)?180+refAngle : 360-refAngle;
-            let qAngle = baseAngle + (typeReq > 1 ? [-1, 1, 2][Math.floor(Math.random() * 3)] * 360 : 0);
+            
+            let qAngle = baseAngle;
+            if (typeReq === 2 || (typeReq === 3 && Math.random() < 0.5)) {
+                qAngle = baseAngle + [-1, 1, 2][Math.floor(Math.random() * 3)] * 360;
+            }
 
             let isPositive = (quadrant===1) || (func==='\\sin'&&quadrant===2) || (func==='\\cos'&&quadrant===4) || (func==='\\tan'&&quadrant===3);
-            
-            let qAngleStr = isRadianMode ? degreeToRadianLatex(qAngle) : `${qAngle}^\\circ`;
-            let refAngleStr = isRadianMode ? degreeToRadianLatex(refAngle) : `${refAngle}^\\circ`;
-            let qDisplay = (qAngle < 0) ? `${func}(${qAngleStr})` : `${func} ${qAngleStr}`;
 
+            let signStr = isPositive ? "" : "-";
+            let qAngleStr = isRadianMode ? degreeToRadianLatex(qAngle) : `${qAngle}^\\circ`;
+            let baseAngleStr = isRadianMode ? degreeToRadianLatex(baseAngle) : `${baseAngle}^\\circ`;
+            let refAngleStr = isRadianMode ? degreeToRadianLatex(refAngle) : `${refAngle}^\\circ`;
+
+            let qDisplay = formatFunc(func, qAngleStr);
+            let reducedFunc = `${signStr}${func} ${refAngleStr}`;
+            
             let answer = "";
             if (typeReq < 3) {
-                answer = `${isPositive?"":"-"}${func} ${refAngleStr}`;
+                answer = reducedFunc;
             } else {
                 let v = "";
                 if(func==='\\sin') v = refAngle===30?'\\frac{1}{2}':refAngle===45?'\\frac{\\sqrt{2}}{2}':'\\frac{\\sqrt{3}}{2}';
                 if(func==='\\cos') v = refAngle===30?'\\frac{\\sqrt{3}}{2}':refAngle===45?'\\frac{\\sqrt{2}}{2}':'\\frac{1}{2}';
                 if(func==='\\tan') v = refAngle===45?'1':'\\sqrt{3}';
-                answer = `${isPositive?"":"-"}${v}`;
+                answer = `${signStr}${v}`;
             }
 
-            let quadText = ["", "第一象限", "第二象限", "第三象限", "第四象限"][quadrant];
-            let process = `\\begin{aligned} & 1.\\; \\text{化為正同界角: } ${isRadianMode?degreeToRadianLatex(baseAngle):baseAngle+'^\\circ'} \\\\ & 2.\\; \\text{判斷正負: } ${quadText} \\rightarrow ${isPositive?"+":"-"} \\\\ & 3.\\; \\text{找參考角: } ${refAngleStr} \\\\ & 4.\\; \\text{結果: } \\mathbf{${answer}} \\end{aligned}`;
-
-            return { q: qDisplay, hintLatex: `\\text{參考角為 } ${refAngleStr}`, a: answer, process: process };
+            // 構建連貫等式過程
+            let steps = [];
+            steps.push(formatFunc(func, qAngleStr));
+            if (qAngle !== baseAngle) steps.push(formatFunc(func, baseAngleStr));
+            
+            if (baseAngle !== refAngle) {
+                let inner = "";
+                if (isRadianMode) {
+                    if (baseAngle > 90 && baseAngle < 180) inner = `\\pi - ${refAngleStr}`;
+                    else if (baseAngle > 180 && baseAngle < 270) inner = `\\pi + ${refAngleStr}`;
+                    else if (baseAngle > 270 && baseAngle < 360) inner = `2\\pi - ${refAngleStr}`;
+                } else {
+                    if (baseAngle > 90 && baseAngle < 180) inner = `180^\\circ - ${refAngleStr}`;
+                    else if (baseAngle > 180 && baseAngle < 270) inner = `180^\\circ + ${refAngleStr}`;
+                    else if (baseAngle > 270 && baseAngle < 360) inner = `360^\\circ - ${refAngleStr}`;
+                }
+                if (inner) steps.push(formatFunc(func, inner, true));
+            }
+            
+            if (typeReq === 3 && (baseAngle !== refAngle || qAngle !== baseAngle)) steps.push(reducedFunc);
+            steps.push(answer);
+            
+            return { q: qDisplay, hintLatex: `\\text{參考角為 } ${refAngleStr}`, a: answer, process: steps.join(" = ") };
         }
 
-        function initGame() {
-            updateAvatars(true); updateUI(); loadNextQuestion();
-        }
+        function initGame() { updateAvatars(true); updateUI(); loadNextQuestion(); }
 
         function updateAvatars(isInit = false) {
             const pData = getPlayerAsset(player.level);
             if (document.getElementById('player-avatar').getAttribute('src') !== pData.img) {
                 document.getElementById('player-avatar').src = pData.img;
                 document.getElementById('player-title').innerText = pData.title;
+                if (!isInit) playEvolutionAnim('#player-avatar');
             }
         }
 
@@ -334,32 +390,31 @@
             let timeTaken = ((Date.now() - questionStartTime) / 1000).toFixed(1);
             let isCorrect = (getFormattedInput() === currentQuestion.a);
             
-            // 紀錄到 Buffer 準備發送
             pendingAnswers.push({ typeReq: currentTypeReq, question: currentQuestion.q, isCorrect: isCorrect, timeTaken: Number(timeTaken), usedHint: usedHintForCurrent });
 
             if (isCorrect) {
-                player.combo += 1;
-                player.exp += 35 + (player.combo * 5);
-                pendingDamage += player.atk; // 累積傷害發送給大屏
-                
+                player.combo += 1; player.exp += boss.baseExp + (player.combo * 5); pendingDamage += player.atk;
                 anime({ targets: '#player-avatar', translateX: [0, 45, 0], scale: [1, 1.2, 1], duration: 350 });
                 anime({ targets: '#monster-avatar', opacity: [1, 0.2, 1], scale: [1, 0.8, 1], rotate: [0, 15, 0], duration: 400, delay: 150 });
-                checkLevelUp(); updateUI(); loadNextQuestion();
+                checkLevelUp();
+                if (boss.hp <= player.atk) { boss.hp = 0; updateUI(); triggerWin(); } 
+                else { boss.hp -= player.atk; updateUI(); loadNextQuestion(); }
             } else {
                 isQuestionActive = false; player.combo = 0; player.hp -= boss.atk;
-                
                 anime({ targets: '#monster-avatar', translateX: [0, -45, 0], scale: [1, 1.3, 1], duration: 300 });
                 anime({ targets: '#combat-center', translateX: [{ value: -8 }, { value: 8 }, { value: 0 }], duration: 300, delay: 150 });
                 anime({ targets: '#player-avatar', opacity: [1, 0.2, 1], translateX: [0, -15, 0], duration: 400, delay: 150 });
                 
                 document.getElementById('btn-attack').classList.add('hidden'); document.getElementById('btn-next').classList.remove('hidden');
+                
+                // 動態展示過程等式
                 const displayDiv = document.getElementById('input-display');
                 displayDiv.className = "text-base md:text-lg min-h-[160px] mb-4 py-4 px-2 bg-rose-50 border-4 border-rose-300 rounded-2xl flex flex-col items-center justify-center text-slate-800 transition-colors";
                 displayDiv.innerHTML = `<div class="text-sm font-black text-rose-600 mb-2 border-b-2 border-rose-200 pb-1 w-[80%] text-center">❌ 法術反噬！正確解析如下</div><div id="process-center" class="process-scroll text-left flex justify-center py-2 text-slate-800"></div>`;
                 katex.render(currentQuestion.process, document.getElementById('process-center'), { throwOnError: false, displayMode: true });
 
-                updateUI();
                 if (player.hp <= 0) { player.hp = 0; updateUI(); isGameOver = true; setTimeout(() => { showScreenMessage("GAME OVER", "text-rose-600", true); }, 800); }
+                else { updateUI(); }
             }
         }
 
@@ -377,8 +432,15 @@
             document.getElementById('player-hp-bar').style.width = `${Math.max(0, (player.hp / player.maxHp) * 100)}%`;
             document.getElementById('player-exp-bar').style.width = `${Math.max(0, (player.exp / player.maxExp) * 100)}%`;
             document.getElementById('combo-text').innerText = player.combo;
+            document.getElementById('monster-hp-text').innerText = `${Math.max(0, boss.hp)}/${boss.maxHp}`;
+            document.getElementById('monster-hp-bar').style.width = `${Math.max(0, (boss.hp / boss.maxHp) * 100)}%`;
             document.getElementById('monster-atk-text').innerText = boss.atk;
             document.getElementById('monster-diff-text').innerText = player.level >= 7 ? "程度三 (特殊角求值)" : (player.level >= 4 ? "程度二 (跨界負角變換)" : "程度一 (單次銳角化簡)");
+        }
+
+        function playEvolutionAnim(targetId) {
+            const el = document.querySelector(targetId); el.classList.add('evolution-glow');
+            anime({ targets: targetId, scale: [0.5, 1.5, 1], rotate: '1turn', opacity: [0.5, 1], duration: 1500, easing: 'easeInOutSine', complete: function() { el.classList.remove('evolution-glow'); } });
         }
 
         function showScreenMessage(mainText, colorClass, sticky = false) {
